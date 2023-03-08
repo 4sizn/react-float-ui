@@ -1,0 +1,86 @@
+.floatTab {
+  position: absolute;
+}
+
+#floating-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.z9900 {
+  z-index: 9900 !important;
+}
+
+.resizecont {
+  position: absolute;
+}
+
+.resizecont {
+  background-color: blue;
+}
+.topone {
+  top: -8px;
+  left: 0;
+  width: 100%;
+}
+
+.rightone {
+  top: 0;
+  right: -8px;
+  height: 100%;
+}
+
+.leftone {
+  top: 0;
+  left: -8px;
+  height: 100%;
+}
+
+.bottomone {
+  bottom: -8px;
+  left: 0;
+  width: 100%;
+}
+
+.h-full {
+  height: 100%;
+}
+
+.flex {
+  display: flex;
+}
+
+.cursor-nw-resize {
+  cursor: nw-resize;
+}
+
+.cursor-sw-resize {
+  cursor: sw-resize;
+}
+
+.cursor-n-resize {
+  cursor: n-resize;
+}
+
+.cursor-nesw-resize {
+  cursor: nesw-resize;
+}
+
+.cursor-nwse-resize {
+  cursor: nwse-resize;
+}
+
+.cursor-w-resize {
+  cursor: w-resize;
+}
+
+.cursor-col-resize {
+  cursor: col-resize;
+}
+
+.cursor-row-resize {
+  cursor: row-resize;
+}
