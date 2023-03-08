@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { FloatingStateContext } from '../provider/FloatingProvider';
 
-type Position = {
+type XY = {
   x: number;
   y: number;
 };
@@ -25,7 +25,7 @@ type BOTTOM_RIGHT = {
   right: number;
 };
 
-type CombinedPosition = Partial<Position & TOP_LEFT & TOP_RIGHT & BOTTOM_LEFT & BOTTOM_RIGHT>;
+type Position = Partial<XY & TOP_LEFT & TOP_RIGHT & BOTTOM_LEFT & BOTTOM_RIGHT>;
 
 type FloatingProps = React.PropsWithChildren<{
   name: string;
@@ -48,7 +48,7 @@ export default function Floating({ children, ...props }: FloatingProps) {
   const [snap, setSnap] = useState(false);
   const context = useContext(FloatingStateContext);
 
-  const setPos = (positionData: CombinedPosition = {}) => {
+  const setPos = (positionData: Position = {}) => {
     if (wnapp) {
       Object.hasOwn(positionData, 'x') && (wnapp.style.left = positionData.x + 'px');
       Object.hasOwn(positionData, 'y') && (wnapp.style.top = positionData.y + 'px');
@@ -94,25 +94,25 @@ export default function Floating({ children, ...props }: FloatingProps) {
 
     console.log('###', dim0, dim1);
     console.log('###eleDrag');
-    if (op == 0) setPos(calPosType(pos0, pos1, wnapp?.dataset.positions || ''));
+    if (op == 0) setPos(genPos(pos0, pos1, wnapp?.dataset.positions || ''));
     else {
       dim0 = Math.max(dim0, 300);
       dim1 = Math.max(dim1, 300);
       pos0 = posP[0] + Math.min(vec[0], 0) * (dim0 - dimP[0]);
       pos1 = posP[1] + Math.min(vec[1], 0) * (dim1 - dimP[1]);
-      setPos(calPosType(pos0, pos1, wnapp?.dataset.positions || ''));
+      setPos(genPos(pos0, pos1, wnapp?.dataset.positions || ''));
       setDim(dim0, dim1);
     }
 
-    function calPosType(pos0: number, pos1: number, positions: string) {
-      let posData = {} as any;
+    function genPos(pos0: number, pos1: number, positions: string) {
+      let posData = {} as Position;
 
       if (positions.length === 0) {
-        console.log('hsshin', 1);
         posData['y'] = pos0;
         posData['x'] = pos1;
         return;
       }
+
       if (wnapp) {
         positions.includes('top') && (posData['top'] = pos0);
         positions.includes('bottom') &&
@@ -128,17 +128,17 @@ export default function Floating({ children, ...props }: FloatingProps) {
   };
 
   const openSnap = () => {
+    console.log('openSnap()', snap);
     setSnap(true);
-    console.log('openSnap', snap);
   };
 
   const closeSnap = () => {
+    console.log('closeSnap()', snap);
     setSnap(false);
-    console.log('closeSnap', snap);
   };
 
   const toolClick = () => {
-    console.log('???', toolClick);
+    console.log('tookClick()', props);
     if (context) {
       context.dispatch({
         type: 'front',
@@ -147,13 +147,10 @@ export default function Floating({ children, ...props }: FloatingProps) {
         },
       });
     }
-
-    console.log('toolClick', props);
   };
 
   const toolDrag: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    console.log('eee toolDrag', e);
-
+    console.log('toolDrag()', e);
     e = e || window.event;
     e.preventDefault();
     posM = [e.clientY, e.clientX];
@@ -183,7 +180,7 @@ export default function Floating({ children, ...props }: FloatingProps) {
   };
 
   useEffect(() => {
-    console.log('rendered', ref.current, props, context?.state);
+    console.log('useEffect()', 'render', ref.current, props, context?.state);
     if (ref.current) {
       if (context?.state.item[props.name]?.options?.position) {
         wnapp = ref.current;
