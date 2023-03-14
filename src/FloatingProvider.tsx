@@ -1,6 +1,5 @@
 import React, { useReducer } from 'react';
 import ReactDOM from 'react-dom';
-import Floating from '../components/Floating';
 
 type FloatingProviderProps = { children: React.ReactNode };
 
