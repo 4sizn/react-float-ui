@@ -11,14 +11,13 @@ type RegisterFloatingItemProps = {
   id?: string;
 };
 
-export function useFloatingItem({
-  Component,
-  options,
-  id,
-}: RegisterFloatingItemProps & { id?: string }) {
+/**
+ * custom hook for floating item
+ */
+export function useFloatingItem() {
   const context = useContext(FloatingStateContext);
 
-  const handleAddItem = useCallback(() => {
+  const handleAddItem = useCallback(({ Component, options, id }: RegisterFloatingItemProps) => {
     if (!id) {
       id = Math.random().toString(36).substr(2, 9);
     }
@@ -32,12 +31,12 @@ export function useFloatingItem({
       payload: {
         id,
         options,
-        render: (props: any) => <Component {...props} />,
+        render: (props: any) => <Component {...props} />, //TODO: props
       },
     });
   }, []);
 
   return {
-    add: handleAddItem,
+    register: handleAddItem,
   };
 }

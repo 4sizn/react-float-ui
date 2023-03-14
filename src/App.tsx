@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import './App.css';
-import FloatingProvider from './FloatingProvider';
+import { useFloatingItem, FloatingProvider } from './';
 
 function App() {
   return (
@@ -15,5 +15,31 @@ function App() {
 export default App;
 
 function TestComp() {
-  return <div>helloworld</div>;
+  const { register } = useFloatingItem();
+
+  //register floating item
+  useLayoutEffect(() => {
+    register({
+      Component: () => <div>div 테스트</div>,
+      options: {
+        resize: true,
+      },
+    });
+
+    register({
+      Component: () => <div>button 테스트</div>,
+      options: {
+        resize: true,
+      },
+    });
+
+    register({
+      Component: () => <div>span 테스트</div>,
+      options: {
+        resize: true,
+      },
+    });
+  }, []);
+
+  return <div>helloWorld</div>;
 }
